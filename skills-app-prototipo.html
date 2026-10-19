@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SKILLS — Capacitação que desenvolve pessoas e transforma o futuro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#4C1D95;
+    --primary-deep:#2E1065;
+    --primary-light:#7C3AED;
+    --primary-soft:#EDE4FB;
+    --locked:#D9CCF0;
+    --white:#FFFFFF;
+    --bg:#FAF8FE;
+    --ink:#1D1229;
+    --ink-soft:#6B5A8A;
+    --line:#E4DEF2;
+    --radius-card:14px;
+    --radius-pill:999px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--ink);}
+  h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif;}
+  button{font-family:inherit;cursor:pointer;}
+  a{color:inherit;}
+
+  /* ---- layout shell ---- */
+  .shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh;}
+  .rail{background:var(--primary-deep);color:var(--white);padding:28px 18px;display:flex;flex-direction:column;gap:28px;}
+  .rail .brand{display:flex;align-items:center;gap:10px;font-size:1.15rem;font-weight:700;letter-spacing:.02em;}
+  .brand .mark{width:30px;height:30px;border-radius:8px;background:var(--white);flex:none;}
+  .rail nav{display:flex;flex-direction:column;gap:4px;}
+  .rail button.nav-item{display:flex;align-items:center;gap:12px;background:none;border:none;color:#D9CCF0;text-align:left;padding:11px 12px;border-radius:10px;font-size:.94rem;}
+  .rail button.nav-item.active{background:rgba(255,255,255,.14);color:var(--white);}
+  .rail button.nav-item:hover{color:var(--white);}
+  .rail .tag{margin-top:auto;font-size:.78rem;color:#B7A3DE;line-height:1.5;}
+
+  .main{padding:34px 42px;max-width:920px;}
+  .topline{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px;}
+  .topline h1{font-size:1.5rem;margin:0 0 4px;}
+  .topline p{margin:0;color:var(--ink-soft);font-size:.95rem;}
+  .points-chip{display:flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);padding:8px 14px;border-radius:var(--radius-pill);font-weight:600;font-size:.9rem;}
+  .points-chip .dot{width:8px;height:8px;border-radius:50%;background:var(--primary);}
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  .section-title{font-size:1.05rem;margin:0 0 14px;display:flex;align-items:center;gap:8px;}
+  .section-title .n{color:var(--ink-soft);font-weight:400;font-size:.85rem;}
+
+  /* ---- trilha estilo Duolingo ---- */
+  .duo-path{list-style:none;margin:0 0 40px;padding:24px 0;display:flex;flex-direction:column;align-items:center;gap:26px;}
+  .duo-item{display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .duo-item:nth-child(3n+1){transform:translateX(-86px);}
+  .duo-item:nth-child(3n+2){transform:translateX(0);}
+  .duo-item:nth-child(3n){transform:translateX(86px);}
+  .duo-node{width:76px;height:76px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;position:relative;box-shadow:0 4px 0 rgba(0,0,0,.08);}
+  .duo-node.done{background:var(--primary);color:var(--white);}
+  .duo-node.current{background:var(--white);color:var(--primary);border:4px solid var(--primary);width:84px;height:84px;}
+  .duo-node.locked{background:var(--primary-soft);color:var(--locked);border:2px solid var(--line);box-shadow:none;}
+  .duo-item .lbl{font-size:.82rem;text-align:center;max-width:150px;color:var(--ink-soft);}
+  .duo-item.current .lbl{color:var(--ink);font-weight:600;}
+  .duo-cta{background:var(--primary);color:var(--white);border:none;border-radius:var(--radius-pill);padding:6px 18px;font-size:.76rem;font-weight:700;letter-spacing:.03em;}
+
+  /* ---- cursos opcionais: scroll row ---- */
+  .row-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;}
+  .opt-card{flex:0 0 210px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius-card);padding:16px;}
+  .opt-card .badge{display:inline-block;font-size:.72rem;color:var(--primary);background:var(--primary-soft);padding:3px 9px;border-radius:var(--radius-pill);margin-bottom:10px;}
+  .opt-card h3{font-size:.92rem;margin:0 0 6px;}
+  .opt-card p{font-size:.8rem;color:var(--ink-soft);margin:0 0 14px;}
+  .btn{border:none;border-radius:9px;padding:9px 16px;font-size:.85rem;font-weight:600;white-space:nowrap;}
+  .btn-primary{background:var(--primary);color:var(--white);}
+  .btn-primary:hover{background:var(--primary-light);}
+  .btn-ghost{background:none;border:1px solid var(--line);color:var(--ink);}
+
+  /* ---- currículo ---- */
+  .profile-head{display:flex;gap:18px;align-items:center;margin-bottom:28px;}
+  .avatar{width:64px;height:64px;border-radius:50%;background:var(--primary);flex:none;}
+  .profile-head h2{margin:0;font-size:1.2rem;}
+  .profile-head p{margin:2px 0 0;color:var(--ink-soft);font-size:.9rem;}
+
+  .cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  .cert{background:var(--white);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px 16px;display:flex;align-items:center;gap:12px;}
+  .cert .ic{width:34px;height:34px;border-radius:8px;background:var(--primary-soft);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;flex:none;}
+  .cert h4{margin:0 0 2px;font-size:.85rem;}
+  .cert span{font-size:.76rem;color:var(--ink-soft);}
+
+  /* ---- pontos e recompensas ---- */
+  .points-hero{background:var(--primary);color:var(--white);border-radius:16px;padding:26px 28px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:center;}
+  .points-hero .num{font-size:2.3rem;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+  .points-hero p{margin:4px 0 0;color:#D9CCF0;font-size:.86rem;}
+  .bar{width:220px;height:8px;background:rgba(255,255,255,.25);border-radius:5px;overflow:hidden;}
+  .bar span{display:block;height:100%;background:var(--white);}
+
+  .reward-list{display:flex;flex-direction:column;gap:10px;}
+  .reward{display:flex;justify-content:space-between;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:var(--radius-card);padding:14px 18px;}
+  .reward h4{margin:0 0 3px;font-size:.9rem;}
+  .reward span{font-size:.78rem;color:var(--ink-soft);}
+  .reward .cost{font-weight:600;color:var(--primary);font-size:.85rem;}
+
+  /* ---- ranking ---- */
+  .rank-note{font-size:.82rem;color:var(--ink-soft);margin-bottom:16px;}
+  table{width:100%;border-collapse:collapse;background:var(--white);border:1px solid var(--line);border-radius:var(--radius-card);overflow:hidden;}
+  th,td{text-align:left;padding:12px 16px;font-size:.87rem;border-bottom:1px solid var(--line);}
+  th{color:var(--ink-soft);font-weight:500;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;}
+  tr:last-child td{border-bottom:none;}
+  .feedback-btn{border:none;background:none;color:var(--primary);font-weight:600;font-size:.82rem;}
+
+  /* ---- forms (feedback / reportar) ---- */
+  form{display:flex;flex-direction:column;gap:16px;max-width:520px;}
+  label{font-size:.85rem;font-weight:600;display:block;margin-bottom:6px;}
+  select,textarea,input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-family:inherit;font-size:.88rem;background:var(--white);}
+  textarea{min-height:110px;resize:vertical;}
+  .stars{display:flex;gap:6px;font-size:1.4rem;color:var(--line);}
+  .stars span{cursor:pointer;}
+  .stars span.on{color:var(--primary);}
+  .confirm{display:none;margin-top:14px;padding:12px 16px;background:var(--primary-soft);color:var(--primary);border-radius:9px;font-size:.85rem;font-weight:600;}
+  .confirm.show{display:block;}
+
+  @media (max-width:820px){
+    .shell{grid-template-columns:1fr;}
+    .rail{position:fixed;bottom:0;left:0;right:0;flex-direction:row;justify-content:space-around;padding:10px 6px;z-index:5;}
+    .rail .brand,.rail .tag{display:none;}
+    .rail nav{flex-direction:row;gap:2px;}
+    .rail button.nav-item{flex-direction:column;font-size:.66rem;gap:4px;padding:6px 8px;}
+    .main{padding:24px 18px 90px;}
+    .cert-grid{grid-template-columns:1fr;}
+    .duo-item:nth-child(3n+1){transform:translateX(-40px);}
+    .duo-item:nth-child(3n){transform:translateX(40px);}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="rail">
+    <div class="brand"><span class="mark"></span>SKILLS</div>
+    <nav>
+      <button class="nav-item active" data-view="dashboard">Início</button>
+      <button class="nav-item" data-view="perfil">Meu currículo</button>
+      <button class="nav-item" data-view="pontos">Pontos &amp; recompensas</button>
+      <button class="nav-item" data-view="ranking">Ranking</button>
+      <button class="nav-item" data-view="feedback">Feedback</button>
+      <button class="nav-item" data-view="reportar">Reportar problema</button>
+    </nav>
+    <div class="tag">Aprenda · Desenvolva · Evolua</div>
+  </aside>
+
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="dashboard">
+      <div class="topline">
+        <div>
+          <h1>Olá, Gabriela</h1>
+          <p>Setor: Tecnologia da Informação · Natto Alimentos</p>
+        </div>
+        <div class="points-chip"><span class="dot"></span> <span id="chip-pts">150</span> pontos</div>
+      </div>
+
+      <div class="section-title">Trilha obrigatória do seu setor <span class="n">2 de 4 concluídos</span></div>
+      <ul class="duo-path" id="path"></ul>
+
+      <div class="section-title">Cursos opcionais em destaque</div>
+      <div class="row-scroll" id="opcionais"></div>
+    </section>
+
+    <!-- PERFIL / CURRÍCULO -->
+    <section class="view" id="perfil">
+      <div class="topline"><div><h1>Meu currículo</h1><p>Gerado automaticamente conforme você conclui cursos</p></div></div>
+      <div class="profile-head">
+        <div class="avatar"></div>
+        <div><h2>Gabriela Pires</h2><p>Analista de TI · Natto Alimentos</p></div>
+      </div>
+      <div class="section-title">Certificados conquistados</div>
+      <div class="cert-grid" id="certs"></div>
+    </section>
+
+    <!-- PONTOS E RECOMPENSAS -->
+    <section class="view" id="pontos">
+      <div class="topline"><div><h1>Pontos &amp; recompensas</h1><p>Some pontos concluindo cursos e troque por recompensas da empresa</p></div></div>
+      <div class="points-hero">
+        <div><div class="num" id="hero-pts">150</div><p>faltam 50 pontos para a próxima recompensa</p></div>
+        <div class="bar"><span style="width:75%"></span></div>
+      </div>
+      <div class="section-title">Recompensas disponíveis · Natto Alimentos</div>
+      <div class="reward-list" id="rewards"></div>
+    </section>
+
+    <!-- RANKING -->
+    <section class="view" id="ranking">
+      <div class="topline"><div><h1>Ranking do time</h1><p>Visível apenas para gestores da empresa contratante</p></div></div>
+      <p class="rank-note">Modo empresa ativado para esta visualização de exemplo.</p>
+      <table>
+        <thead><tr><th>Colaborador</th><th>Setor</th><th>Cursos no mês</th><th>Pontos</th><th></th></tr></thead>
+        <tbody id="rank-body"></tbody>
+      </table>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section class="view" id="feedback">
+      <div class="topline"><div><h1>Avaliar curso</h1><p>Conte como o curso ajudou na sua carreira ou vida pessoal</p></div></div>
+      <form id="form-feedback">
+        <div>
+          <label>Curso concluído</label>
+          <select>
+            <option>LGPD para RH</option>
+            <option>Fundamentos de Recrutamento e Seleção</option>
+            <option>Gestão de Conflitos</option>
+          </select>
+        </div>
+        <div>
+          <label>Quanto esse curso te ajudou?</label>
+          <div class="stars" id="stars">
+            <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+          </div>
+        </div>
+        <div>
+          <label>Comentário</label>
+          <textarea placeholder="Descreva o impacto do curso no seu dia a dia..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Enviar feedback</button>
+        <div class="confirm" id="confirm-feedback">Feedback enviado. Obrigada por ajudar a melhorar a trilha.</div>
+      </form>
+    </section>
+
+    <!-- REPORTAR PROBLEMA -->
+    <section class="view" id="reportar">
+      <div class="topline"><div><h1>Reportar problema</h1><p>Sua mensagem vai direto para a equipe responsável pela plataforma</p></div></div>
+      <form id="form-report">
+        <div>
+          <label>Tipo de problema</label>
+          <select>
+            <option>Curso não abre / trava</option>
+            <option>Pontos não foram computados</option>
+            <option>Erro no certificado</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div>
+          <label>Descreva o que aconteceu</label>
+          <textarea placeholder="Explique com detalhes o que você encontrou..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Enviar relato</button>
+        <div class="confirm" id="confirm-report">Relato recebido. A equipe SKILLS vai analisar em breve.</div>
+      </form>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ---- navegação entre telas ----
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      navItems.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+      document.getElementById(btn.dataset.view).classList.add('active');
+    });
+  });
+
+  // ---- dados mock (trocar por API depois) ----
+  const trilhaObrigatoria = [
+    {titulo:'Fundamentos de Recrutamento e Seleção', status:'done'},
+    {titulo:'LGPD para RH', status:'done'},
+    {titulo:'Gestão de Conflitos', status:'current'},
+    {titulo:'Comunicação Não-Violenta', status:'locked'},
+  ];
+  const opcionais = [
+    {titulo:'Liderança Ágil', desc:'Times auto-organizados'},
+    {titulo:'Excel Avançado', desc:'Planilhas e relatórios de RH'},
+    {titulo:'Inglês para Negócios', desc:'Vocabulário corporativo'},
+    {titulo:'Design Thinking', desc:'Resolução criativa de problemas'},
+  ];
+  const certificados = trilhaObrigatoria.filter(c=>c.status==='done');
+  const recompensas = [
+    {titulo:'Folga remunerada (1 dia)', custo:'300 pts'},
+    {titulo:'Vale-compras R$ 100', custo:'200 pts'},
+    {titulo:'Ingresso de cinema', custo:'100 pts'},
+  ];
+  const ranking = [
+    {nome:'Gabriela Pires', setor:'TI', cursos:4, pts:150},
+    {nome:'Joanna Cruz', setor:'RH', cursos:3, pts:120},
+    {nome:'Isabelly Biatriz', setor:'Logística', cursos:5, pts:190},
+  ];
+
+  // ---- render trilha estilo Duolingo ----
+  const pathEl = document.getElementById('path');
+  const icon = {done:'✓', current:(i)=>i+1, locked:'🔒'};
+  trilhaObrigatoria.forEach((c,i)=>{
+    const li = document.createElement('li');
+    li.className = 'duo-item ' + c.status;
+    const nodeContent = c.status==='done' ? '✓' : (c.status==='locked' ? '🔒' : (i+1));
+    li.innerHTML = `
+      <button class="duo-node ${c.status}">${nodeContent}</button>
+      <div class="lbl">${c.titulo}</div>
+      ${c.status==='current' ? '<button class="duo-cta">COMEÇAR</button>' : ''}
+    `;
+    pathEl.appendChild(li);
+  });
+
+  // ---- render opcionais ----
+  const optEl = document.getElementById('opcionais');
+  opcionais.forEach(c=>{
+    const card = document.createElement('div');
+    card.className = 'opt-card';
+    card.innerHTML = `<span class="badge">Opcional</span><h3>${c.titulo}</h3><p>${c.desc}</p><button class="btn btn-ghost">Ver curso</button>`;
+    optEl.appendChild(card);
+  });
+
+  // ---- render certificados ----
+  const certEl = document.getElementById('certs');
+  certificados.forEach(c=>{
+    const div = document.createElement('div');
+    div.className = 'cert';
+    div.innerHTML = `<div class="ic">✓</div><div><h4>${c.titulo}</h4><span>Certificado emitido</span></div>`;
+    certEl.appendChild(div);
+  });
+
+  // ---- render recompensas ----
+  const rewEl = document.getElementById('rewards');
+  recompensas.forEach(r=>{
+    const div = document.createElement('div');
+    div.className = 'reward';
+    div.innerHTML = `<div><h4>${r.titulo}</h4><span>Disponível para todo o time</span></div><div class="cost">${r.custo}</div>`;
+    rewEl.appendChild(div);
+  });
+
+  // ---- render ranking ----
+  const rankBody = document.getElementById('rank-body');
+  ranking.sort((a,b)=>b.pts-a.pts).forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r.nome}</td><td>${r.setor}</td><td>${r.cursos}</td><td>${r.pts}</td><td><button class="feedback-btn">Enviar feedback</button></td>`;
+    rankBody.appendChild(tr);
+  });
+
+  // ---- estrelas de feedback ----
+  const stars = document.querySelectorAll('#stars span');
+  stars.forEach(s=>{
+    s.addEventListener('click',()=>{
+      stars.forEach(x=>x.classList.toggle('on', x.dataset.v <= s.dataset.v));
+    });
+  });
+
+  // ---- forms ----
+  document.getElementById('form-feedback').addEventListener('submit', e=>{
+    e.preventDefault();
+    document.getElementById('confirm-feedback').classList.add('show');
+  });
+  document.getElementById('form-report').addEventListener('submit', e=>{
+    e.preventDefault();
+    document.getElementById('confirm-report').classList.add('show');
+  });
+</script>
+</body>
+</html>
