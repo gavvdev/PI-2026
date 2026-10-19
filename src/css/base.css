@@ -1,0 +1,39 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: var(--font-body); background: var(--bg); color: var(--ink); line-height: 1.5; }
+h1, h2, h3, .brand { font-family: var(--font-display); }
+h1 { font-size: 1.5rem; margin: 0 0 4px; }
+h2 { font-size: 1.15rem; margin: 0 0 12px; }
+h3 { font-size: 1rem; margin: 0 0 8px; }
+p { margin: 0 0 12px; }
+a { color: var(--primary-light); }
+button { font-family: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--primary-light); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.muted { color: var(--ink-soft); }
+.small { font-size: 0.82rem; }
+.right { text-align: right; }
+.mt { margin-top: 20px; }
+.nowrap { white-space: nowrap; }
+
+label { font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 6px; }
+select, textarea, input:not([type='checkbox']):not([type='radio']) {
+  width: 100%; padding: 10px 12px; border: 1px solid #c9bfe0; border-radius: 9px;
+  font: inherit; font-size: 0.92rem; background: var(--white); color: var(--ink);
+}
+textarea { min-height: 110px; resize: vertical; }
+input[type='checkbox'], input[type='radio'] { width: 18px; height: 18px; accent-color: var(--primary); }
+.hint { font-size: 0.78rem; color: var(--ink-soft); margin-top: 4px; }
+form { display: flex; flex-direction: column; gap: 16px; max-width: 560px; }
+.inline { display: flex; align-items: center; gap: 10px; }
+.inline label { margin: 0; font-weight: 500; }
+
+table { width: 100%; border-collapse: collapse; background: var(--white); }
+th, td { text-align: left; padding: 11px 14px; font-size: 0.87rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--ink-soft); font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; background: #f6f2fc; }
+tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
