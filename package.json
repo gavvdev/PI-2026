@@ -1,0 +1,7 @@
+{
+  "name": "skills-hcm",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": { "start": "python3 -m http.server 5173", "test": "node --test tests/*.test.js" }
+}
