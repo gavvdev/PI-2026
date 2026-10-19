@@ -1,7 +1,18 @@
 {
   "name": "skills-hcm",
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "description": "Protótipo navegável do SKILLS Core HCM: RH e DP integrados (jornada, férias, folha, ouvidoria e dashboards).",
   "type": "module",
   "private": true,
-  "scripts": { "start": "python3 -m http.server 5173", "test": "node --test tests/*.test.js" }
+  "scripts": {
+    "start": "python3 -m http.server 5173",
+    "test": "node --test tests/*.test.js",
+    "test:e2e": "node tests/e2e/fluxos.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "jsdom": "^26.0.0"
+  }
 }
