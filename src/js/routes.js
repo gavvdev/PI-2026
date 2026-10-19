@@ -4,6 +4,7 @@ import { paginaFerias } from './pages/ferias.js'; //@ferias
 import { paginaFolha } from './pages/folha.js'; //@folha
 import { paginaOuvidoria, paginaOuvidoriaPublica } from './pages/ouvidoria.js'; //@ouvidoria
 import { paginaDesligamentos } from './pages/desligamentos.js'; //@desligamentos
+import { paginaCursos } from './pages/cursos.js'; //@cursos
 
 export const ROTAS = [
   paginaLogin, //@nucleo
@@ -13,4 +14,5 @@ export const ROTAS = [
   paginaFolha, //@folha
   paginaOuvidoria, //@ouvidoria
   paginaDesligamentos, //@desligamentos
+  paginaCursos, //@cursos
 ];
